@@ -1,7 +1,5 @@
 # Grup-194-Bootcamp
 
-# BOOTCAMP
-
 # Takım İsmi
 PsyTrack
 
