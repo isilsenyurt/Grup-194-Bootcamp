@@ -1,0 +1,217 @@
+# main.py
+
+from fastapi import FastAPI, Request, Form, Depends
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from pydantic import BaseModel, ValidationError
+from typing import List, Annotated
+from datetime import datetime
+import uvicorn
+
+# Pydantic modeli veri yapısını tanımlamak için hala faydalı
+class FormData(BaseModel):
+    name: str
+    phq9: List[int]
+    gad7: List[int]
+    sleep: str
+    suicide: bool = False # Varsayılan değer olarak False atandı
+
+app = FastAPI()
+
+# templates klasörünü FastAPI'ye tanıtıyoruz
+templates = Jinja2Templates(directory="templates")
+
+# Hasta verilerini saklamak için basit bir liste (gerçek uygulamada veritabanı kullanılır)
+patient_data = []
+
+# Günlük/haftalık duygusal takip verileri
+emotional_tracking = []
+
+class EmotionalEntry(BaseModel):
+    patient_name: str
+    date: str
+    mood_emoji: str
+    mood_text: str
+    emotional_note: str
+    energy_level: int  # 1-5 arası
+    sleep_hours: int
+    stress_level: int  # 1-5 arası
+
+@app.get("/", response_class=HTMLResponse)
+async def homepage(request: Request):
+    """Ana sayfayı ve anket formunu gösterir."""
+    return templates.TemplateResponse("form.html", {"request": request})
+
+@app.post("/submit", response_class=HTMLResponse)
+async def submit_form(
+    request: Request,
+    name: Annotated[str, Form()],
+    sleep: Annotated[str, Form()],
+    suicide: Annotated[str, Form()] = None # Checkbox işaretlenmezse gelmez
+):
+    """Form verilerini işler ve sonuç sayfasını oluşturur."""
+
+    # Form verilerini al ve integer'a çevir
+    try:
+        form_data = await request.form()
+        
+        # PHQ-9 skorlarını topla
+        phq9_scores = []
+        for i in range(1, 10):  # PHQ-9 has 9 questions
+            field_name = f"phq9_{i}"
+            if field_name in form_data:
+                phq9_scores.append(int(form_data[field_name]))
+        
+        # GAD-7 skorlarını topla
+        gad7_scores = []
+        for i in range(1, 8):  # GAD-7 has 7 questions
+            field_name = f"gad7_{i}"
+            if field_name in form_data:
+                gad7_scores.append(int(form_data[field_name]))
+        
+        form_data = FormData(
+            name=name,
+            phq9=phq9_scores,
+            gad7=gad7_scores,
+            sleep=sleep,
+            suicide= (suicide is not None) # 'suicide' anahtarı varsa True
+        )
+    except (ValueError, ValidationError) as e:
+        return templates.TemplateResponse("form.html", {"request": request, "error": f"Veri doğrulama hatası: {e}"})
+
+    phq9_score = sum(form_data.phq9)
+    gad7_score = sum(form_data.gad7)
+
+    # PHQ-9 Sınıflandırması
+    if phq9_score >= 20:
+        phq_class = "Şiddetli depresyon"
+    elif phq9_score >= 15:
+        phq_class = "Orta-şiddetli depresyon"
+    elif phq9_score >= 10:
+        phq_class = "Orta düzeyde depresyon"
+    elif phq9_score >= 5:
+        phq_class = "Hafif depresyon"
+    else:
+        phq_class = "Minimal veya depresyon belirtisi yok"
+
+    # GAD-7 Sınıflandırması
+    if gad7_score >= 15:
+        gad_class = "Şiddetli anksiyete"
+    elif gad7_score >= 10:
+        gad_class = "Orta düzeyde anksiyete"
+    elif gad7_score >= 5:
+        gad_class = "Hafif anksiyete"
+    else:
+        gad_class = "Minimal veya anksiyete belirtisi yok"
+
+    # Öneri metinleri
+    recommendations = []
+    if form_data.suicide:
+        # Acil durum uyarısı en üste eklenir
+        recommendations.insert(0, "ACİL DESTEK: Kendinize zarar verme düşüncesi belirttiğiniz için bir uzmandan acil yardım almanız kritik öneme sahiptir.")
+    if phq9_score >= 15 or gad7_score >= 15:
+        recommendations.append("Yüksek skorlar nedeniyle haftalık görüşmeler ve yakın takip değerlendirilmelidir.")
+
+    # Sonuçları `result.html` şablonuna göndermek için bir context oluştur
+    context = {
+        "request": request,
+        "name": form_data.name,
+        "phq9_score": phq9_score,
+        "phq_class": phq_class,
+        "gad7_score": gad7_score,
+        "gad_class": gad_class,
+        "sleep": form_data.sleep,
+        "suicide": form_data.suicide,
+        "recommendations": recommendations,
+    }
+
+    # Hasta verilerini kaydet
+    patient_record = {
+        "timestamp": datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "name": form_data.name,
+        "phq9_score": phq9_score,
+        "phq_class": phq_class,
+        "gad7_score": gad7_score,
+        "gad_class": gad_class,
+        "sleep": form_data.sleep,
+        "suicide": form_data.suicide,
+        "recommendations": recommendations,
+        "risk_level": "YÜKSEK RİSK" if form_data.suicide or phq9_score >= 20 or gad7_score >= 15 else
+                     "ORTA RİSK" if phq9_score >= 10 or gad7_score >= 10 else "DÜŞÜK RİSK"
+    }
+    patient_data.append(patient_record)
+
+    return templates.TemplateResponse("result.html", context)
+
+@app.get("/emotional-tracking", response_class=HTMLResponse)
+async def emotional_tracking_form(request: Request):
+    """Günlük/haftalık duygusal takip formu."""
+    return templates.TemplateResponse("emotional_tracking.html", {"request": request})
+
+@app.post("/emotional-submit", response_class=HTMLResponse)
+async def submit_emotional_tracking(
+    request: Request,
+    patient_name: Annotated[str, Form()],
+    mood_emoji: Annotated[str, Form()],
+    mood_text: Annotated[str, Form()],
+    emotional_note: Annotated[str, Form()],
+    energy_level: Annotated[int, Form()],
+    sleep_hours: Annotated[int, Form()],
+    stress_level: Annotated[int, Form()]
+):
+    """Duygusal takip verilerini işler."""
+    
+    emotional_entry = {
+        "patient_name": patient_name,
+        "date": datetime.now().strftime("%d/%m/%Y %H:%M"),
+        "mood_emoji": mood_emoji,
+        "mood_text": mood_text,
+        "emotional_note": emotional_note,
+        "energy_level": energy_level,
+        "sleep_hours": sleep_hours,
+        "stress_level": stress_level
+    }
+    
+    emotional_tracking.append(emotional_entry)
+    
+    return templates.TemplateResponse("emotional_success.html", {
+        "request": request, 
+        "entry": emotional_entry
+    })
+
+@app.get("/doktor", response_class=HTMLResponse)
+async def doctor_panel(request: Request):
+    """Doktor paneli - tüm hasta verilerini gösterir."""
+    return templates.TemplateResponse("doctor.html", {
+        "request": request, 
+        "patients": patient_data,
+        "emotional_data": emotional_tracking
+    })
+
+@app.get("/doktor-login", response_class=HTMLResponse)
+async def doctor_login(request: Request):
+    """Doktor giriş sayfası."""
+    return templates.TemplateResponse("doctor_login.html", {"request": request})
+
+@app.post("/doktor-authenticate")
+async def doctor_authenticate(
+    request: Request,
+    doctor_code: Annotated[str, Form()]
+):
+    """Doktor kimlik doğrulama."""
+    # Basit kod kontrolü (gerçek uygulamada güvenli kimlik doğrulama kullanılır)
+    if doctor_code == "DOKTOR123":
+        return templates.TemplateResponse("doctor.html", {
+            "request": request, 
+            "patients": patient_data,
+            "emotional_data": emotional_tracking,
+            "authenticated": True
+        })
+    else:
+        return templates.TemplateResponse("doctor_login.html", {
+            "request": request, 
+            "error": "Geçersiz doktor kodu!"
+        })
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
