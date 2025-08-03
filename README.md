@@ -150,3 +150,42 @@ Esma Işıl ŞENYURT, İrem Gül ER, Cansu KIZILARMUT, Cenker ZEYBEK
 
 Roller netleştirilmiştir. Proje durumu güncelleştirilmiş, geliştirilmiş ve planlanan görsel de oluşturulmuştur. Proje uygulamasına geçişe başlanmıştır. Projenin oluşması için hızlanması hedeflenmelidir.
 
+# SPRINT 3
+# Sprint içinde tamamlanması tahmin edilen puan:
+100 Puan
+
+# Puan tamamlama mantığı: 
+Toplamda proje boyunca tamamlanması gereken 300 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 100 ile başlaması gerektiğine karar verildi.
+
+# Trello Link: 
+
+https://trello.com/invite/b/6876a752e2188089381dc7bd/ATTI4cb69f767f77928a0e1048edca2320c57527CA20/trello-panom
+
+# Daily Scrum: 
+
+Daily Scrum görüşmeleri whatsapptan yapılmakta ve müsaitlik olursa meetten görüşme sağlanmaktadır. Örnek konuşma:
+
+
+
+# Sprint board update: 
+
+Sprint board screenshot: 
+
+
+# Ürün Durumu: 
+
+
+# Sprint Notları:
+
+
+# Sprint Review: 
+
+Alınan kararlar: Bir önceki sprintte karar verilen konsepte ve ürün içeriğine gelişmeler yapılmıştır. Jiro linkinde sorun yaşandığı için Trellodan sürecin yönetilmesine karar verilmiştir.
+
+# Sprint Review katılımcıları: 
+
+Esma Işıl ŞENYURT, Cansu KIZILARMUT, Cenker ZEYBEK
+
+# Sprint Retrospective:
+
+
