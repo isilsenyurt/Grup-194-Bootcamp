@@ -155,7 +155,7 @@ Roller netleştirilmiştir. Proje durumu güncelleştirilmiş, geliştirilmiş v
 100 Puan
 
 # Puan tamamlama mantığı: 
-Toplamda proje boyunca tamamlanması gereken 300 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 100 ile başlaması gerektiğine karar verildi.
+Toplamda proje boyunca tamamlanması gereken 300 puanlık backlog bulunmaktadır. Sprint 3’te de bu dağılıma sadık kalınmış, sürdürülebilir gelişim ve proje takibi için bu yaklaşım benimsenmiştir.
 
 # Trello Link: 
 
@@ -165,22 +165,54 @@ https://trello.com/invite/b/6876a752e2188089381dc7bd/ATTI4cb69f767f77928a0e1048e
 
 Daily Scrum görüşmeleri whatsapptan yapılmakta ve müsaitlik olursa meetten görüşme sağlanmaktadır. Örnek konuşma:
 
-
+![WhatsApp Görsel 2025-08-03 saat 12 05 38_2c9ce924](https://github.com/user-attachments/assets/4872cac7-038b-4b24-9b3c-7d8e04cb4f88)
+![WhatsApp Görsel 2025-08-03 saat 12 05 57_5aa9d4d8](https://github.com/user-attachments/assets/78de81cb-7748-42c1-804d-e4c2c5685add)
 
 # Sprint board update: 
 
 Sprint board screenshot: 
 
+<img width="1862" height="831" alt="image" src="https://github.com/user-attachments/assets/56d19903-32c8-47b0-8099-029f6fea6cd9" />
+
 
 # Ürün Durumu: 
 
+Bu sprintte ürünün kullanıcıya dönük birçok arayüzünün şekillenmesi ve kullanıcı geri bildirimine açık hale gelmesi hedeflenmiştir. Ürün fonksiyonel olarak kişiselleştirme ve etkileşim yönünden daha gelişmiş bir hale gelmektedir.
+
+- *Memnuniyet Anketi:* Hastaların uygulamaya dair geri bildirim verebildiği mini bir anket ekranı planlandı.
+- *Geliştirme Talepleri:* Kullanıcıların sistem hakkındaki yeni fikir ve ihtiyaçlarını aktarabileceği bir alan tasarlandı.
+- *Yapay Zekâ Verileri:* Kullanıcının davranış ve sağlık verileri toplanarak hem hasta hem doktor için özetlenebilecek bir sayfa düşünülmüştür.
+- *Duygu Takibi:* “Bugün nasılsın?” gibi sorularla, kullanıcıdan emoji + metin kombinasyonu ile duygu durumu alınarak kaydedilecek.
+- *İlk Randevu Anketi:* Uygulamayı ilk kullanan kullanıcıya yöneltilen tanıtıcı ve veri toplayıcı kısa sorular içerir.
+- *Risk Skoru:* Sistem, kullanıcının verdiği cevaplara göre otomatik risk puanı üretip bunu sade bir görselle kullanıcıya sunacaktır.
+- *Geri Bildirim Sayfası:* Kullanıcı tüm sürecin ardından sistem genel değerlendirmesini yapabilecektir.
+
+| Görev | Açıklama |
+|-------|----------|
+| Kullanıcı Memnuniyet Anketi | Hastaların memnuniyet düzeyini ölçmek için basit bir anket modülünün eklenmesi |
+| Geliştirme Talepleri Alanı | Hastaların uygulamayla ilgili önerilerini yazabilecekleri bir alan tasarlanması |
+| Yapay Zekâ Veri Sayfası | Hastanın verilerini toplayarak doktora ve hastaya sunulacak şekilde arayüz geliştirilmesi |
+| Duygu Takibi (Emoji + Metin Girişi) | Kullanıcının günlük ruh halini emojilerle ve metinle belirtmesini sağlayan sistem |
+| İlk Randevu Anketi | Hastanın ilk görüşmeden önce dolduracağı kısa bir anket ekranı |
+| Risk Skoru Hesaplama | Toplanan verilerle kullanıcıya özel risk skoru hesaplayan bir yapı |
+| Geri Bildirim Modülü | Kullanıcının tüm süreç sonunda sistemle ilgili genel bir yorum bırakabileceği alan |
 
 # Sprint Notları:
 
+Duygu takibi arayüzü için kullanıcıya öneri emojiler eklenmesi önerildi.
+Geliştirme talepleri kısmı için kullanıcıların önerileri listeleyip oylayabileceği bir sistem eklenmesi gündeme alındı.
+İlk randevu anketiyle toplanan verilerin sistemde doktor görünümünde özetlenmesi planlandı.
+Risk skoru hesaplamasında kullanılan soruların daha anlaşılır ve kısa hale getirilmesi gerektiği belirtildi.
+Takımın bu sprintteki işbirliği ve iletişimi verimli bulunmuş, sonraki sprintte veri bütünlüğü ve analitiğine odaklanılması önerilmiştir.
 
 # Sprint Review: 
 
-Alınan kararlar: Bir önceki sprintte karar verilen konsepte ve ürün içeriğine gelişmeler yapılmıştır. Jiro linkinde sorun yaşandığı için Trellodan sürecin yönetilmesine karar verilmiştir.
+Sprint sonunda geliştirilen her modülün testleri tamamlanmış, sistemin genel işleyişi gözden geçirilmiştir. Takım içi demo sırasında aşağıdaki çıktılar değerlendirilmiştir:
+Anket modülleri beklendiği gibi çalışmaktadır.
+Kullanıcı duygu takibi görsel ve metinsel olarak başarılı şekilde kaydedilmektedir.
+Yapay zekâ veri görselleştirme ekranı tamamlanmış ancak veri kaynağı entegrasyonu eksik kalmıştır.
+Risk skoru hesaplama mantığı doğru çalışmakta ancak görselleştirme tarafında küçük iyileştirmelere ihtiyaç duyulmuştur.
+Kullanıcıdan alınan ilk geri bildirimlerde genel memnuniyetin yüksek olduğu, özellikle kişiselleştirilmiş içeriklerin olumlu karşılandığı görülmüştür.
 
 # Sprint Review katılımcıları: 
 
@@ -188,4 +220,4 @@ Esma Işıl ŞENYURT, Cansu KIZILARMUT, Cenker ZEYBEK
 
 # Sprint Retrospective:
 
-
+Sprint 3 kapsamında ekip, projenin kullanıcı deneyimini ve etkileşimli özelliklerini artırmaya yönelik çalışmalara odaklanmıştır. Özellikle yapay zekâ destekli veri toplama, analiz ve kullanıcı geri bildirim mekanizmaları üzerine çalışmalar planlanmaktadır.
