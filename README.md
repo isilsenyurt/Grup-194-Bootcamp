@@ -93,7 +93,6 @@ Takım üyelerinin gelecek sprintlerde aktif olması gerektiğine vurgu yapılm�
 # Puan tamamlama mantığı: 
 Toplamda proje boyunca tamamlanması gereken 300 puanlık backlog bulunmaktadır. 3 sprint'e bölündüğünde ilk sprint'in en azından 100 ile başlaması gerektiğine karar verildi.
 
-
 # Trello Link: 
 
 https://trello.com/invite/b/6876a752e2188089381dc7bd/ATTI4cb69f767f77928a0e1048edca2320c57527CA20/trello-panom
@@ -186,6 +185,13 @@ Bu sprintte ürünün kullanıcıya dönük birçok arayüzünün şekillenmesi 
 - *İlk Randevu Anketi:* Uygulamayı ilk kullanan kullanıcıya yöneltilen tanıtıcı ve veri toplayıcı kısa sorular içerir.
 - *Risk Skoru:* Sistem, kullanıcının verdiği cevaplara göre otomatik risk puanı üretip bunu sade bir görselle kullanıcıya sunacaktır.
 - *Geri Bildirim Sayfası:* Kullanıcı tüm sürecin ardından sistem genel değerlendirmesini yapabilecektir.
+
+<img width="1061" height="730" alt="image" src="https://github.com/user-attachments/assets/2d1b1326-7884-4597-a8b8-294c1f555a9f" />
+<img width="1037" height="661" alt="image" src="https://github.com/user-attachments/assets/ea0270e0-ab38-4943-b9db-8c0b0a8ffc2c" />
+
+<img width="720" height="630" alt="image" src="https://github.com/user-attachments/assets/6aeadae2-a4f6-4917-99a4-6bea8cd43584" /> <img width="668" height="606" alt="image" src="https://github.com/user-attachments/assets/1117778a-cc25-4076-a039-fea0fd206bd7" />
+<img width="1828" height="778" alt="image" src="https://github.com/user-attachments/assets/251178c4-94d6-4224-bc76-02ac5537abbb" />
+
 
 | Görev | Açıklama |
 |-------|----------|
